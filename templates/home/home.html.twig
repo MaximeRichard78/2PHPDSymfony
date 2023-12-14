@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}
+{% endblock %}
+
+
+{% block body %}
+	<body>
+		<div class="col padding-body">
+			<div
+				class="row">
+				<!-- Premier colonne contenant des informations -->
+				<div class="col padding-col">
+					<h1>Bonjour je m'apppelle Maxime</h1>
+					<h6 class="pb-5 text-light opacity-25">Bienvenue sur mon portfolio</h6>
+					<h6 class="pb-4 pt-5">Je suis un developper debutant je ne me suis pas specialiser.</h6>
+					<h6 class="pb-4">Pendant mon temps libre, j’aime bien jouer au jeu video, regarder des videos sur des sujets divers et 
+						                    varier comme l’automobile,les jeux video et d’autre sujet.</h6>
+					<h6>j’ai bien discuter et débattre sur plein de sujet qui concerne la planete, 
+                    l’avenir de l’automobile par rapport a l’écologie</h6>
+				</div>
+				<!-- Seconde colonne contenant des informations différentes avec des logo qui emmene au site en question -->
+				<div class="col-lg padding-col text-center">
+					<h1 class="pb-5">Voulez vous m’embaucher ?</h1>
+					<br>
+					<p class="pb-2">Vous pouvez me contacter par email ou sur linkedin</p>
+					<a class="btn background-button mb-5" href="#" role="button"><img src="./Image/email-svgrepo-com 1.svg" class="pe-2" alt="logo email">email</a>
+					<div class="d-flex align-items-center">
+						<hr class="col">
+						<p class="pt-3 px-4">or</p>
+						<hr class="col">
+					</div>
+					<a class="btn background-button me-lg-1 me-0 rounded-3 p-2" href="https://fr.linkedin.com/" target="_blank" role="button"><img src="./Image/linkedin-svgrepo-com 1.svg" alt="logo linkedin"></a>
+				</div>
+			</div>
+		</div>
+	</body>
+{% endblock %}

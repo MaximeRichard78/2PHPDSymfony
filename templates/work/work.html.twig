@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello WorkController!{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+{% endblock %}
 
 {% block body %}
+{{parent()}}
 <body>
 		<div class="col padding-body">
 			<div

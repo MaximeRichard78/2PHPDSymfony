@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+	{{parent()}}
+{% endblock %}
+
 {% block body %}
+{{parent()}}
+
 	<body>
 		<div class="col padding-body text-center">
 			<h1 class="mt-2 pb-5">A propos de cette page</h1>

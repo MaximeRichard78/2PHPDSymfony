@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AboutController!
+{% block stylesheets %}
+	{{parent()}}
 {% endblock %}
 
 {% block body %}
+{{parent()}}
+
 	<body>
 		<div class="col padding-body">
 			<div

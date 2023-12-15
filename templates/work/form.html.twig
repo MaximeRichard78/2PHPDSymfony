@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{parent()}}
+{% endblock %}
+{% block body %}
+{{parent()}}
+    {{form_start(form,{attr:{"novalidate":"novalidate"}})}}
+	{{form_rest(form)}}
+	<button type="submit" class="btn btn-danger">Envoyer</button>
+	{{form_end(form)}}
+
+{% endblock %}

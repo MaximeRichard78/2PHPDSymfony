@@ -5,32 +5,59 @@
 {% endblock %}
 
 {% block body %}
-{{parent()}}
-<body>
-<div class="d-flex justify-content-end">
-	<a class="btn btn-dark me-1 rounded-3 p-2" role="button">Tri</a>
-</div>
+	{{parent()}}
+	<body>
+		<div class="d-flex justify-content-end">
+			<a class="btn btn-dark me-1 rounded-3 p-2" role="button">Tri</a>
+		</div>
 		<div class="col padding-body">
 			<div
 				class="row">
 				<!-- Premier colonne contenant des informations -->
 				<div class="col padding-col">
 					<h1>Mes formations</h1>
-					<h6 class="pb-5 text-light opacity-25">MODUS S.A. (1 yr 9 mos)</h6>
-					<h6 class="pb-4 pt-5">Senior .NET Developer</h6>
-					<h6 class="pb-4">MAY 2023 - PRESENT (3 months)</h6>
-					<h6>Develops and maintains services handling business logic.Created both desktop and web applications for internal use by the company.</h6>
-		            <a class="btn btn-dark mb-5" href="/training/create" role="button">Créer une formation</a>
+					{% for training in trainings %}
+						{{training.name}}
+						<br>
+						{{training.startDate|date("d/m/Y")}}
+						{{training.endDate|date("d/m/Y")}}
+						<br>
+						{{training.description}}
+						<br>
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							<a class="btn btn-dark my-3	" href="/training/update/{{training.id}}">Modifier</a>
+							<a class="btn btn-dark my-3" href="/training/delete/{{training.id}}">Supprimer</a>
+						{% endif %}
+						<br>
+					{% endfor %}
+					<br>
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<a class="btn btn-dark mb-5" href="/training/create" role="button">Créer une formation</a>
+					{% endif %}
+
 				</div>
 				<div class="col padding-col">
 					<h1>Mes experiences</h1>
-					<h6 class="pb-5 text-light opacity-25">MODUS S.A. (1 yr 9 mos)</h6>
-					<h6 class="pb-4 pt-5">Senior .NET Developer</h6>
-					<h6 class="pb-4">MAY 2023 - PRESENT (3 months)</h6>
-					<h6>Develops and maintains services handling business logic.Created both desktop and web applications for internal use by the company.</h6>
-					<a class="btn btn-dark mb-5" href="/work/create" role="button">Créer une experiences</a>
+					{% for work in works %}
+						{{work.name}}
+						<br>
+						{{work.startDate|date("d/m/Y")}}
+						{{work.endDate|date("d/m/Y")}}
+						<br>
+						{{work.description}}
+						<br>
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							<a class="btn btn-dark my-3" href="/work/update/{{work.id}}">Modifier</a>
+							<a class="btn btn-dark my-3" href="/work/delete/{{work.id}}">Supprimer</a>
+						{% endif %}
+					{% endfor %}
+					<br>
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<a class="btn btn-dark mb-5" href="/work/create" role="button">Créer une experiences</a>
+					{% endif %}
+
 				</div>
 			</div>
 		</div>
 	</body>
-{% endblock %}
+{% endblock %}</body>

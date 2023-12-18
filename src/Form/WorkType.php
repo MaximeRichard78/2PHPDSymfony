@@ -15,7 +15,7 @@ class WorkType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, ["label" => "Nom de la formation"])
+            ->add('name', TextType::class, ["label" => "Nom de l'éxperience"])
             ->add('startDate',DateType::class, ["label" => "Date de début"])
             ->add('endDate',DateType::class, ["label" => "Date de fin"] )
             ->add('description',TextareaType::class, ["label" => "Description"])

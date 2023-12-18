@@ -7,7 +7,11 @@
 {{parent()}}
     {{form_start(form,{attr:{"novalidate":"novalidate"}})}}
 	{{form_rest(form)}}
-	<button type="submit" class="btn btn-danger">Envoyer</button>
+	{% if type == "create" %}
+		<input type="submit" value="Créer" class="btn btn-success">
+	{% else %}
+		<input type="submit" value="Modifier" class="btn btn-warning">
+	{% endif %}
 	{{form_end(form)}}
 
 {% endblock %}

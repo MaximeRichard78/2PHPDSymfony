@@ -20,13 +20,15 @@ class Work
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $startDate = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endDate = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "text")]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: '', targetEntity:Training ::class)]
+    #[ORM\ManyToOne(inversedBy: 'works', targetEntity: Training::class)]
+    private ?Training $training = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -43,8 +45,6 @@ class Work
 
         return $this;
     }
-
-    
 
     public function getDescription(): ?string
     {
@@ -90,6 +90,24 @@ class Work
     public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of training
+     */
+    public function getTraining(): ?Training
+    {
+        return $this->training;
+    }
+
+    /**
+     * Set the value of training
+     */
+    public function setTraining(?Training $training): self
+    {
+        $this->training = $training;
 
         return $this;
     }

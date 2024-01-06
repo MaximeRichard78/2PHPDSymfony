@@ -45,6 +45,13 @@ class UploadController extends AbstractController
         ]);
     }
 
+    public function getLatestUpload(EntityManagerInterface $em)
+    {
+        $repository = $em->getRepository(Upload::class);
+        $latestUpload = $repository->findOneBy([], ['id' => 'DESC']);
+    
+        return $latestUpload;
+    }
     #[Route('/about', name: 'about')]
     public function about(EntityManagerInterface $em): Response
     {
@@ -54,13 +61,6 @@ class UploadController extends AbstractController
         ]);
     }
 
-    public function getLatestUpload(EntityManagerInterface $em)
-    {
-        $repository = $em->getRepository(Upload::class);
-        $latestUpload = $repository->findOneBy([], ['id' => 'DESC']);
-    
-        return $latestUpload;
-    }
    
 }
 

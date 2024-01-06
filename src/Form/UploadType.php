@@ -20,7 +20,7 @@ class UploadType extends AbstractType /* Formulaire de la page Upload */
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024M',
+                        'maxSize' => '10M',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',

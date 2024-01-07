@@ -16,7 +16,7 @@
 					<div class="col-lg padding-col text-center">
 						<div>
 							{% if latestUpload is defined %}
-								<img src="/uploads/picture/{{ latestUpload.picture }}" alt="Dernière image téléchargée">
+								<img src="/uploads/picture/{{ latestUpload.picture }}" class="img-fluid mt-5 px-5" alt="Dernière image téléchargée">
 							{% else %}
 								<p>Aucune image n'a été téléchargée.</p>
 							{% endif %}

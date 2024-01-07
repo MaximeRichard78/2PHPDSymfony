@@ -15,11 +15,11 @@
 					<!-- Premier colonne contenant des informations -->
 					<div class="col padding-col">
 						<h1>Mes formations</h1>
-						{% set sens = sens is defined and sens == 'asc' ? 'desc' : 'asc' %}
 
-						<form action="{{ path('training_tri', {'sens': sens}) }}" method="post">
-							<button type="submit">Trier</button>
+						<form method="get" action="{{ path('works_triTrainings') }}">
+							<button type="submit" name="sort" class="btn btn-dark my-3" value="{{ app.request.query.get('sort') == 'asc' ? 'desc' : 'asc' }}">Trier</button>
 						</form>
+
 						{% for training in trainings %}
 							{{training.name}}
 							<br>
@@ -42,6 +42,11 @@
 					</div>
 					<div class="col padding-col">
 						<h1>Mes experiences</h1>
+
+						<form method="get" action="{{ path('works_triWorks') }}">
+							<button type="submit" name="sort" class="btn btn-dark my-3" value="{{ app.request.query.get('sort') == 'asc' ? 'desc' : 'asc' }}">Trier</button>
+						</form>
+
 						{% for work in works %}
 							{{work.name}}
 							<br>
@@ -54,6 +59,7 @@
 								<a class="btn btn-dark my-3" href="/work/update/{{work.id}}">Modifier</a>
 								<a class="btn btn-dark my-3" href="/work/delete/{{work.id}}">Supprimer</a>
 							{% endif %}
+							<br>
 						{% endfor %}
 						<br>
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}

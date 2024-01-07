@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Training;
 use App\Form\TrainingType;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,4 +66,22 @@ class TrainingController extends AbstractController
 
         return $this->redirectToRoute('works');
     }
+
+    #[Route('/tri/{sens}', name: 'training_tri', methods: ["POST"], defaults: ["sens" => "asc"])]    
+    public function trierParDate($sens, EntityManagerInterface $em)
+{
+    // Récupérez vos données (c'est un exemple, adaptez-le à votre cas)
+    $donnees = $em->getRepository(Training::class)->findAll();
+    // Triez les données par date
+    usort($donnees, function ($a, $b) use ($sens) {
+        if ($sens === 'asc') {
+            return $a->getDateDebut() > $b->getDateDebut();
+        } else {
+            return $a->getDateDebut() < $b->getDateDebut();
+        }
+    });
+
+    // Renvoyez les données triées
+    return $this->render('work/works.html.twig', ['trainings' => $donnees]);
+}
 }

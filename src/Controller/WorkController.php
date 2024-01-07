@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Training;
 use App\Entity\Work;
 use App\Form\WorkType;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +29,7 @@ class WorkController extends AbstractController
         }
         return $this->render('work/form.html.twig', [
             'form' => $form->createView(),
-            "type" =>"create"
+            "type" => "create"
 
         ]);
     }
@@ -48,7 +47,7 @@ class WorkController extends AbstractController
         return $this->render('work/form.html.twig', [
 
             'form' => $form->createView(),
-            "type" =>"update"
+            "type" => "update"
 
         ]);
     }
@@ -75,21 +74,31 @@ class WorkController extends AbstractController
         return $this->render('work/works.html.twig', ["works" =>  $works, "trainings" =>  $trainings]);
     }
 
-    #[Route('/tri/{sens}', name: 'works_tri', methods: ["POST"], defaults: ["sens" => "asc"])]    
-    public function trierParDate($sens, EntityManagerInterface $em)
+    #[Route('/works/triTrainings', name: 'works_triTrainings')]
+public function triTrainings(Request $request, ManagerRegistry $doctrine)
 {
-    // Récupérez vos données (c'est un exemple, adaptez-le à votre cas)
-    $donnees = $em->getRepository(Training::class)->findAll();
-    // Triez les données par date
-    usort($donnees, function ($a, $b) use ($sens) {
-        if ($sens === 'asc') {
-            return $a->getDateDebut() > $b->getDateDebut();
-        } else {
-            return $a->getDateDebut() < $b->getDateDebut();
-        }
-    });
+    $sortOrder = $request->query->get('sort', 'asc'); // Par défaut, trier par ordre croissant
 
-    // Renvoyez les données triées
-    return $this->render('training/index.html.twig', ['trainings' => $donnees]);
+    $repository = $doctrine->getRepository(Training::class);
+    $trainings = $repository->findBy([], ['startDate' => $sortOrder]); // Remplacez 'startDate' par le champ de la date de départ
+
+    return $this->render('work/works.html.twig', [
+        'trainings' => $trainings,
+        'works' => $doctrine->getRepository(Work::class)->findAll(), // Utilisez $doctrine au lieu de $this->getDoctrine()
+    ]);
+}
+
+#[Route('/works/triWorks', name: 'works_triWorks')]
+public function triWorks(Request $request, ManagerRegistry $doctrine)
+{
+    $sortOrder = $request->query->get('sort', 'asc'); // Par défaut, trier par ordre croissant
+
+    $repository = $doctrine->getRepository(Work::class); // Remplacez Work::class par la classe de votre entité Work
+    $works = $repository->findBy([], ['startDate' => $sortOrder]); // Remplacez 'startDate' par le champ de la date de départ
+
+    return $this->render('work/works.html.twig', [
+        'works' => $works,
+        'trainings' => $doctrine->getRepository(Training::class)->findAll(), // Utilisez $doctrine au lieu de $this->getDoctrine()        ]);
+    ]);
 }
 }

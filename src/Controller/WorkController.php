@@ -80,11 +80,11 @@ public function triTrainings(Request $request, ManagerRegistry $doctrine)
     $sortOrder = $request->query->get('sort', 'asc'); // Par défaut, trier par ordre croissant
 
     $repository = $doctrine->getRepository(Training::class);
-    $trainings = $repository->findBy([], ['startDate' => $sortOrder]); // Remplacez 'startDate' par le champ de la date de départ
+    $trainings = $repository->findBy([], ['startDate' => $sortOrder]); 
 
     return $this->render('work/works.html.twig', [
         'trainings' => $trainings,
-        'works' => $doctrine->getRepository(Work::class)->findAll(), // Utilisez $doctrine au lieu de $this->getDoctrine()
+        'works' => $doctrine->getRepository(Work::class)->findAll(), 
     ]);
 }
 
@@ -93,12 +93,12 @@ public function triWorks(Request $request, ManagerRegistry $doctrine)
 {
     $sortOrder = $request->query->get('sort', 'asc'); // Par défaut, trier par ordre croissant
 
-    $repository = $doctrine->getRepository(Work::class); // Remplacez Work::class par la classe de votre entité Work
-    $works = $repository->findBy([], ['startDate' => $sortOrder]); // Remplacez 'startDate' par le champ de la date de départ
+    $repository = $doctrine->getRepository(Work::class); 
+    $works = $repository->findBy([], ['startDate' => $sortOrder]);
 
     return $this->render('work/works.html.twig', [
         'works' => $works,
-        'trainings' => $doctrine->getRepository(Training::class)->findAll(), // Utilisez $doctrine au lieu de $this->getDoctrine()        ]);
+        'trainings' => $doctrine->getRepository(Training::class)->findAll(),
     ]);
 }
 }

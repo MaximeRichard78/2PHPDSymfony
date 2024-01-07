@@ -71,13 +71,14 @@ class WorkController extends AbstractController
         $trainingRepository = $doctrine->getRepository(Training::class);
         $trainings = $trainingRepository->findAll();
 
-        return $this->render('work/works.html.twig', ["works" =>  $works, "trainings" =>  $trainings]);
+        return $this->render('work/works.html.twig', ["works" =>  $works, "trainings" =>  $trainings, 'search' => '']);
     }
 
     #[Route('/works/triTrainings', name: 'works_triTrainings')]
 public function triTrainings(Request $request, ManagerRegistry $doctrine)
 {
     $sortOrder = $request->query->get('sort', 'asc'); // Par défaut, trier par ordre croissant
+    $searchTerm = $request->query->get('search', '');
 
     $repository = $doctrine->getRepository(Training::class);
     $trainings = $repository->findBy([], ['startDate' => $sortOrder]); 
@@ -85,6 +86,7 @@ public function triTrainings(Request $request, ManagerRegistry $doctrine)
     return $this->render('work/works.html.twig', [
         'trainings' => $trainings,
         'works' => $doctrine->getRepository(Work::class)->findAll(), 
+        'search' => $searchTerm,
     ]);
 }
 
@@ -92,13 +94,37 @@ public function triTrainings(Request $request, ManagerRegistry $doctrine)
 public function triWorks(Request $request, ManagerRegistry $doctrine)
 {
     $sortOrder = $request->query->get('sort', 'asc'); // Par défaut, trier par ordre croissant
+    $searchTerm = $request->query->get('search', '');
 
-    $repository = $doctrine->getRepository(Work::class); 
-    $works = $repository->findBy([], ['startDate' => $sortOrder]);
+    $entityManager = $doctrine->getManager();
+    $workQueryBuilder = $entityManager->createQueryBuilder();
+
+    $workQueryBuilder->select('w')
+        ->from('App\Entity\Work', 'w')
+        ->orderBy('w.startDate', $sortOrder);
+
+    if ($searchTerm) {
+        $workQueryBuilder->where('w.name LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $searchTerm . '%');
+    }
+
+    $works = $workQueryBuilder->getQuery()->getResult();
+
+    $trainingQueryBuilder = $entityManager->createQueryBuilder();
+    $trainingQueryBuilder->select('t')
+        ->from('App\Entity\Training', 't');
+
+    if ($searchTerm) {
+        $trainingQueryBuilder->where('t.name LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $searchTerm . '%');
+    }
+
+    $trainings = $trainingQueryBuilder->getQuery()->getResult();
 
     return $this->render('work/works.html.twig', [
         'works' => $works,
-        'trainings' => $doctrine->getRepository(Training::class)->findAll(),
+        'trainings' => $trainings,
+        'search' => $searchTerm,
     ]);
 }
 }

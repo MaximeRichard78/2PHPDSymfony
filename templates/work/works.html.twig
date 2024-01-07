@@ -8,64 +8,70 @@
 	{{parent()}}
 	<body>
 		<div class="container ms-0 me-0">
-			<div class="d-flex justify-content-center"></div>
-			<div class="col padding-body">
-				<div
-					class="row">
-					<!-- Premier colonne contenant des informations -->
-					<div class="col padding-col">
-						<h1>Mes formations</h1>
+		<form class="d-flex justify-content-center" action="{{ path('works_triWorks') }}" method="get">
+					<input class="form-control me-2" type="text" name="search" value="{{ search }}" placeholder="Rechercher...">
+					<input class="btn btn-outline-dark" type="submit" value="Rechercher">
+				</form>
+			<div class="d-flex justify-content-center">
+				
+				<div class="col padding-body">
+					<div
+						class="row">
+						<!-- Premier colonne contenant des informations -->
+						<div class="col padding-col">
+							<h1>Mes formations</h1>
 
-						<form method="get" action="{{ path('works_triTrainings') }}">
-							<button type="submit" name="sort" class="btn btn-dark my-3" value="{{ app.request.query.get('sort') == 'asc' ? 'desc' : 'asc' }}">Trier</button>
-						</form>
+							<form method="get" action="{{ path('works_triTrainings') }}">
+								<button type="submit" name="sort" class="btn btn-outline-dark my-3" value="{{ app.request.query.get('sort') == 'asc' ? 'desc' : 'asc' }}">Trier</button>
+							</form>
 
-						{% for training in trainings %}
-							{{training.name}}
-							<br>
-							{{training.startDate|date("d/m/Y")}}
-							{{training.endDate|date("d/m/Y")}}
-							<br>
-							{{training.description}}
+							{% for training in trainings %}
+								{{training.name}}
+								<br>
+								{{training.startDate|date("d/m/Y")}}
+								{{training.endDate|date("d/m/Y")}}
+								<br>
+								{{training.description}}
+								<br>
+								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+									<a class="btn btn-outline-dark my-3	" href="/training/update/{{training.id}}">Modifier</a>
+									<a class="btn btn-outline-dark my-3" href="/training/delete/{{training.id}}">Supprimer</a>
+								{% endif %}
+								<br>
+							{% endfor %}
 							<br>
 							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-								<a class="btn btn-dark my-3	" href="/training/update/{{training.id}}">Modifier</a>
-								<a class="btn btn-dark my-3" href="/training/delete/{{training.id}}">Supprimer</a>
+								<a class="btn btn-outline-dark mb-5" href="/training/create" role="button">Créer une formation</a>
 							{% endif %}
-							<br>
-						{% endfor %}
-						<br>
-						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-							<a class="btn btn-dark mb-5" href="/training/create" role="button">Créer une formation</a>
-						{% endif %}
 
-					</div>
-					<div class="col padding-col">
-						<h1>Mes experiences</h1>
+						</div>
+						<div class="col padding-col">
+							<h1>Mes experiences</h1>
 
-						<form method="get" action="{{ path('works_triWorks') }}">
-							<button type="submit" name="sort" class="btn btn-dark my-3" value="{{ app.request.query.get('sort') == 'asc' ? 'desc' : 'asc' }}">Trier</button>
-						</form>
+							<form method="get" action="{{ path('works_triWorks') }}">
+								<button type="submit" name="sort" class="btn btn-outline-dark my-3" value="{{ app.request.query.get('sort') == 'asc' ? 'desc' : 'asc' }}">Trier</button>
+							</form>
 
-						{% for work in works %}
-							{{work.name}}
-							<br>
-							{{work.startDate|date("d/m/Y")}}
-							{{work.endDate|date("d/m/Y")}}
-							<br>
-							{{work.description}}
+							{% for work in works %}
+								{{work.name}}
+								<br>
+								{{work.startDate|date("d/m/Y")}}
+								{{work.endDate|date("d/m/Y")}}
+								<br>
+								{{work.description}}
+								<br>
+								{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+									<a class="btn btn-outline-dark my-3" href="/work/update/{{work.id}}">Modifier</a>
+									<a class="btn btn-outline-dark my-3" href="/work/delete/{{work.id}}">Supprimer</a>
+								{% endif %}
+								<br>
+							{% endfor %}
 							<br>
 							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-								<a class="btn btn-dark my-3" href="/work/update/{{work.id}}">Modifier</a>
-								<a class="btn btn-dark my-3" href="/work/delete/{{work.id}}">Supprimer</a>
+								<a class="btn btn-outline-dark mb-5" href="/work/create" role="button">Créer une experiences</a>
 							{% endif %}
-							<br>
-						{% endfor %}
-						<br>
-						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-							<a class="btn btn-dark mb-5" href="/work/create" role="button">Créer une experiences</a>
-						{% endif %}
 
+						</div>
 					</div>
 				</div>
 			</div>
